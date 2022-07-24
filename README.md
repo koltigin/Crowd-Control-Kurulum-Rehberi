@@ -133,7 +133,7 @@ systemctl restart Cardchaind
 
 ## Logları Kontrol Etme
 ```shell
-journalctl -u Cardchain -f -o cat
+journalctl -u Cardchaind -f -o cat
 ```  
 
 ## Cüzdan Oluşturma
