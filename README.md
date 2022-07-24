@@ -154,7 +154,7 @@ Cardchain keys add $WALLET --recover
 ## Faucet
 Aşağıdaki kodda hata alırsanız [buradan](http://dragonapi.space:5000/) token isteyebilirsiniz.
 ```shell
-KEY=CUZDAN_ADRESINIZ
+KEY=$(Cardchain keys show 'CUZDAN_ADRESINIZ' --output=json | jq .address -r)
 curl -X POST https://cardchain.crowdcontrol.network/faucet/ -d "{\"address\": \"$KEY\"}"
 ```
 
