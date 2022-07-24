@@ -2,7 +2,7 @@
 
 ![image](https://user-images.githubusercontent.com/102043225/179354101-a597974d-793b-4201-8e38-364a4ba13a3f.png)
 
-## Gereksinimler
+## Gereksinimler (Minimum)
   * 2 CPU
   * 4GB RAM
   * 50 GB SSD
