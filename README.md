@@ -50,7 +50,7 @@ echo "export NODENAME=Mehmet"  >> $HOME/.bash_profile
 echo "export WALLET=Mehmet" >> $HOME/.bash_profile
 echo "export CHAIN_ID="Cardchain >> $HOME/.bash_profile
 source $HOME/.bash_profile
----
+```
 
 ## Cardchain Kurulumu
 ```shell
