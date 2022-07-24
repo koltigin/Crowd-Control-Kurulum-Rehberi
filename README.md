@@ -42,9 +42,12 @@ echo "export WALLET=$WALLET" >> $HOME/.bash_profile
 echo "export CHAIN_ID=Cardchain" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
----
-echo "export NODENAME=KolTigin"  >> $HOME/.bash_profile
-echo "export WALLET=KolTigin" >> $HOME/.bash_profile
+
+### Örnek
+Node ve Cüzdan adımızın Mehmet olduğunu varsayalım. Kod aşağıdaki şekilde düzenlenecektir. 
+```shell
+echo "export NODENAME=Mehmet"  >> $HOME/.bash_profile
+echo "export WALLET=Mehmet" >> $HOME/.bash_profile
 echo "export CHAIN_ID="Cardchain >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ---
