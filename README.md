@@ -34,8 +34,8 @@ go version
 
 ## Değişkenleri Yükleme
 aşağıda değiştirmeniz gereken yerleri yazıyorum.
-* '$NODENAME' validator adınız
-* '$WALLET' cüzdan adınız
+* `$NODENAME` validator adınız
+* `$WALLET` cüzdan adınız
 ```shell
 echo "export NODENAME=$NODENAME"  >> $HOME/.bash_profile
 echo "export WALLET=$WALLET" >> $HOME/.bash_profile
@@ -48,7 +48,7 @@ Node ve Cüzdan adımızın Mehmet olduğunu varsayalım. Kod aşağıdaki şeki
 ```shell
 echo "export NODENAME=Mehmet"  >> $HOME/.bash_profile
 echo "export WALLET=Mehmet" >> $HOME/.bash_profile
-echo "export CHAIN_ID="Cardchain >> $HOME/.bash_profile
+echo "export CHAIN_ID=Cardchain" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
 
