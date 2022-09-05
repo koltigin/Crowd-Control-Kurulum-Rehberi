@@ -34,21 +34,24 @@ go version
 
 ## Değişkenleri Yükleme
 aşağıda değiştirmeniz gereken yerleri yazıyorum.
-* `$NODENAME` validator adınız
-* `$WALLET` cüzdan adınız
+* `$CROWD_NODENAME` validator adınız
+* `$CROWD_WALLET` cüzdan adınız
+*  Eğer portu başka bir node kullanıyorsa aşağıdan değiştirebilirsiniz.
 ```shell
-echo "export NODENAME=$NODENAME"  >> $HOME/.bash_profile
-echo "export WALLET=$WALLET" >> $HOME/.bash_profile
-echo "export CHAIN_ID=Cardchain" >> $HOME/.bash_profile
+echo "export CROWD_NODENAME=$CROWD_NODENAME"  >> $HOME/.bash_profile
+echo "export CROWD_WALLET=$CROWD_WALLET" >> $HOME/.bash_profile
+echo "export CROWD_PORT=18" >> $HOME/.bash_profile
+echo "export CROWD_CHAIN_ID=Cardchain" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
 
 ### Örnek
 Node ve Cüzdan adımızın Mehmet olduğunu varsayalım. Kod aşağıdaki şekilde düzenlenecektir. 
 ```shell
-echo "export NODENAME=Mehmet"  >> $HOME/.bash_profile
-echo "export WALLET=Mehmet" >> $HOME/.bash_profile
-echo "export CHAIN_ID=Cardchain" >> $HOME/.bash_profile
+echo "export CROWD_NODENAME=Mehmet"  >> $HOME/.bash_profile
+echo "export CROWD_WALLET=Mehmet" >> $HOME/.bash_profile
+echo "export CROWD_PORT=18" >> $HOME/.bash_profile
+echo "export CROWD_CHAIN_ID=Cardchain" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
 
@@ -59,13 +62,13 @@ curl https://get.ignite.com/DecentralCardGame/Cardchain@latest! | sudo bash
 
 ## Uygulamayı Yapılandırma
 ```shell
-Cardchain config chain-id $CHAIN_ID
+Cardchain config chain-id $CROWD_CHAIN_ID
 Cardchain config keyring-backend test
 ```
 
 ## Uygulamayı Başlatma
 ```shell
-Cardchain init $NODENAME --chain-id $CHAIN_ID
+Cardchain init $NODENAME --chain-id $CROWD_CHAIN_ID
 ```
 
 ## Testnet1 Klasörü ve Genesis Dosyasının İndirilmesi
@@ -76,17 +79,17 @@ cp $HOME/Testnet1/genesis.json $HOME/.Cardchain/config/genesis.json
 
 ## Minimum GAS Ücretinin Ayarlanması
 ```shell
-sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0ubpf\"/" $HOME/.Cardchain /config/app.toml
+sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0ubpf\"/" $HOME/.Cardchain/config/app.toml
 ```
 
 ## SEED ve PEERS Ayarlanması
 ```shell
-sed -i -e "/persistent_peers =/ s/= .*/= \"61f05a01167b1aec59275f74c3d7c3dc7e9388d4@45.136.28.158:26658\"/"  $HOME/.Cardchain/config/config.toml
+sed -i -e "/persistent_peers =/ s/= .*/= \"61f05a01167b1aec59275f74c3d7c3dc7e9388d4@45.136.28.158:26658\"/" $HOME/.Cardchain/config/config.toml
 ```
 
 ## Prometheus'u Aktif Etme
 ```shell
-sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.Cardchain /config/config.toml
+sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.Cardchain/config/config.toml
 ```
 
 ## Pruning'i Ayarlama
@@ -95,10 +98,16 @@ pruning="custom"
 pruning_keep_recent="100"
 pruning_keep_every="0"
 pruning_interval="50"
-sed -i -e "s/^pruning *=.*/pruning = \"$pruning\"/" $HOME/.Cardchain /config/app.toml
-sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"$pruning_keep_recent\"/" $HOME/.Cardchain /config/app.toml
-sed -i -e "s/^pruning-keep-every *=.*/pruning-keep-every = \"$pruning_keep_every\"/" $HOME/.Cardchain /config/app.toml
-sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $HOME/.Cardchain /config/app.toml
+sed -i -e "s/^pruning *=.*/pruning = \"$pruning\"/" $HOME/.Cardchain/config/app.toml
+sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"$pruning_keep_recent\"/" $HOME/.Cardchain/config/app.toml
+sed -i -e "s/^pruning-keep-every *=.*/pruning-keep-every = \"$pruning_keep_every\"/" $HOME/.Cardchain/config/app.toml
+sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $HOME/.Cardchain/config/app.toml
+```
+
+## Portları Ayarlama
+```shell
+sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:${CROWD_PORT}658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:${CROWD_PORT}657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${CROWD_PORT}060\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:${CROWD_PORT}656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":${CROWD_PORT}660\"%" $HOME/.Cardchain/config/config.toml
+sed -i.bak -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:${CROWD_PORT}317\"%; s%^address = \":8080\"%address = \":${CROWD_PORT}080\"%; s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:${CROWD_PORT}090\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:${CROWD_PORT}091\"%" $HOME/.Cardchain/config/app.toml
 ```
 
 ## Zincir Verilerini Sıfırlama
@@ -140,14 +149,14 @@ journalctl -u Cardchaind -f -o cat
 ## Cüzdan Oluşturma
 
 ### Yeni Cüzdan Oluşturma
-`$WALLET` bölümünü değiştirmiyoruz kurulumun başında cüzdanımıza isim belirledik.
+`$CROWD_WALLET` bölümünü değiştirmiyoruz kurulumun başında cüzdanımıza isim belirledik.
 ```shell 
-Cardchain keys add $WALLET
+Cardchain keys add $CROWD_WALLET
 ```  
 
 ### Var Olan Cüzdanı İçeri Aktarma
 ```shell
-Cardchain keys add $WALLET --recover
+Cardchain keys add $CROWD_WALLET --recover
 ```
 
 * BU AŞAMADAN SONRA NODE'UMUZUN EŞLEŞMESİNİ BEKLİYORUZ.
@@ -161,7 +170,7 @@ curl -X POST https://cardchain.crowdcontrol.network/faucet/ -d "{\"address\": \"
 
 ## Cüzdan Bakiyesini Kontrol Etme
 ```shell
-Cardchain query bank balances CUZDAN_ADRESINIZ --chain-id $CHAIN_ID
+Cardchain query bank balances CUZDAN_ADRESINIZ --chain-id $CROWD_CHAIN_ID
 ```  
 
 ## Senkronizasyonu Kontrol Etme
@@ -184,13 +193,13 @@ Cardchain tx staking create-validator
  --amount 9900000ubpf 
  --pubkey=$(Cardchain tendermint show-validator) 
  --moniker=$NODENAME 
- --chain-id=$CHAIN_ID 
+ --chain-id=$CROWD_CHAIN_ID 
  --details=Rues Community Supporter 
  --security-contact=E-POSTANIZ 
  --website=httpsforum.rues.info 
  --identity=XXXX1111XXXX1111 
  --min-self-delegation=1000000 
- --from=$WALLET
+ --from=$CROWD_WALLET
  ```  
 
 ## Validator Linkinizi Paylaşma
@@ -259,7 +268,7 @@ Cardchain keys list
 
 ### Cüzdanı İçeri Aktarma
 ```shell
-Cardchain keys add $WALLET --recover
+Cardchain keys add $CROWD_WALLET --recover
 ```
 
 ### Cüzdanı Silme
@@ -279,43 +288,43 @@ Cardchain tx bank send CUZDAN_ADRESI GONDERILECEK_CUZDAN_ADRESI 100000000ubpf
 
 ### Proposal Oylamasına Katılma
 ```shell
-Cardchain tx gov vote 1 yes --from $WALLET --chain-id=CHAIN_ID 
+Cardchain tx gov vote 1 yes --from $CROWD_WALLET --chain-id=$CROWD_CHAIN_ID 
 ```
 
 ### Validatore Stake Etme  Delegate Etme
 ```shell
-Cardchain tx staking delegate $VALOPER_ADDRESS 100000000utoi --from=$WALLET --chain-id=C$HAIN_ID  --gas=auto
+Cardchain tx staking delegate $VALOPER_ADDRESS 100000000utoi --from=$CROWD_WALLET --chain-id=$CROWD_CHAIN_ID  --gas=auto
 ```
 
 ### Mevcut Validatorden Diğer Validatore Stake Etme  Redelegate Etme
 ```shell
-Cardchain tx staking redelegate MevcutValidatorAdresi StakeEdilecekYeniValidatorAdresi 100000000ubpf --from=WALLET --chain-id=CHAIN_ID  --gas=auto
+Cardchain tx staking redelegate MevcutValidatorAdresi StakeEdilecekYeniValidatorAdresi 100000000ubpf --from=$CROWD_WALLET --chain-id=$CROWD_CHAIN_ID --gas=auto
 ```
 
 ### Ödülleri Çekme
 ```shell
-Cardchain tx distribution withdraw-all-rewards --from=$WALLET --chain-id=CHAIN_ID  --gas=auto
+Cardchain tx distribution withdraw-all-rewards --from=$CROWD_WALLET --chain-id=$CROWD_CHAIN_ID --gas=auto
 ```
 
 ### Komisyon Ödüllerini Çekme
 ```shell
-Cardchain tx distribution withdraw-rewards VALIDATOR_ADRESI --from=$WALLET --commission --chain-id=CHAIN_ID 
+Cardchain tx distribution withdraw-rewards VALIDATOR_ADRESI --from=$CROWD_WALLET --commission --chain-id=$CROWD_CHAIN_ID 
 ```
 
 ### Validator İsmini Değiştirme
 ```shell
 Cardchain tx staking edit-validator 
 --moniker=YENI_NODE_ADI 
---chain-id=$CHAIN_ID  
---from=$WALLET
+--chain-id=$CROWD_CHAIN_ID  
+--from=$CROWD_WALLET
 ```
 
 ### Validatoru Jail Durumundan Kurtarma 
 ```shell
 Cardchain tx slashing unjail 
   --broadcast-mode=block 
-  --from=$WALLET 
-  --chain-id=$CHAIN_ID  
+  --from=$CROWD_WALLET 
+  --chain-id=$CROWD_CHAIN_ID  
   --gas=auto
 ```
 
