@@ -326,11 +326,12 @@ Cardchain tx staking edit-validator
 
 ### Validatoru Jail Durumundan Kurtarma 
 ```shell
-Cardchain tx slashing unjail 
-  --broadcast-mode=block 
-  --from=$CROWD_WALLET 
-  --chain-id=$CROWD_CHAIN_ID  
-  --gas=auto
+Cardchain tx slashing unjail \
+  --broadcast-mode=block \
+  --from=$CROWD_WALLET \
+  --chain-id=$CROWD_CHAIN_ID \
+  --gas=auto \
+  -y
 ```
 
 ### Node'u Tamamen Silme 
