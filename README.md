@@ -68,8 +68,9 @@ Cardchain config keyring-backend test
 Cardchain init $NODENAME --chain-id $CHAIN_ID
 ```
 
-## Genesis ve Addrbook Dosyalarının İndirilmesi
+## Testnet1 Klasörü ve Genesis Dosyasının İndirilmesi
 ```shell
+git clone https://github.com/DecentralCardGame/Testnet1 
 cp $HOME/Testnet1/genesis.json $HOME/.Cardchain/config/genesis.json
 ```
 
