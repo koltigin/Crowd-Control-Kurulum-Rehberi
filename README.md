@@ -68,7 +68,7 @@ Cardchain config keyring-backend test
 
 ## Uygulamayı Başlatma
 ```shell
-Cardchain init $NODENAME --chain-id $CROWD_CHAIN_ID
+Cardchain init $CROWD_NODENAME --chain-id $CROWD_CHAIN_ID
 ```
 
 ## Testnet1 Klasörü ve Genesis Dosyasının İndirilmesi
@@ -192,7 +192,7 @@ Cardchain tx staking create-validator
  --commission-rate=0.05 
  --amount 9900000ubpf 
  --pubkey=$(Cardchain tendermint show-validator) 
- --moniker=$NODENAME 
+ --moniker=$CROWD_NODENAME 
  --chain-id=$CROWD_CHAIN_ID 
  --details=Rues Community Supporter 
  --security-contact=E-POSTANIZ 
