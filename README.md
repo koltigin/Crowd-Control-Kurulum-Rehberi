@@ -176,7 +176,7 @@ Cardchain query bank balances CUZDAN_ADRESINIZ --chain-id $CROWD_CHAIN_ID
 ## Senkronizasyonu Kontrol Etme
 `false` çıktısı almaldıkça bir sonraki yani validator oluşturma adımına geçmiyoruz.
 ```shell
-Cardchain status 2&1  jq .SyncInfo
+Cardchain status 2>&1 | jq .SyncInfo
 ```
 
 ## Validator Oluşturma
