@@ -82,6 +82,11 @@ cp $HOME/Testnet1/genesis.json $HOME/.Cardchain/config/genesis.json
 sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0ubpf\"/" $HOME/.Cardchain/config/app.toml
 ```
 
+## Indexer'i Kapatma (Opsiyonel)
+```shell
+sed -i 's|^indexer *=.*|indexer = "null"|' $HOME/.Cardchain/config/config.toml
+```
+
 ## SEED ve PEERS Ayarlanması
 ```shell
 sed -i -e "/persistent_peers =/ s/= .*/= \"61f05a01167b1aec59275f74c3d7c3dc7e9388d4@45.136.28.158:26658\"/" $HOME/.Cardchain/config/config.toml
