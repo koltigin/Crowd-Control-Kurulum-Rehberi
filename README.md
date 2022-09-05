@@ -5,7 +5,7 @@
 ## Gereksinimler (Minimum)
   * 2 CPU
   * 4GB RAM
-  * 50 GB SSD
+  * 100 GB SSD (benim önerim)
   
 ## Sistemi Güncelleme
 ```shell
@@ -19,7 +19,7 @@ sudo apt install curl make build-essential gcc tmux jq chrony htop -y < "/dev/nu
 
 ## Go Kurulumu
 ```shell
-ver="1.18.3"
+ver="1.18.4"
 wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
 rm -rf /usr/local/go
 tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
