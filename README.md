@@ -346,8 +346,13 @@ sudo rm /usr/local/bin/Cardchain
 # Hesaplar
 
 [Anatolian Team](https://anatolianteam.com)
+
 [Twitter](https://twitter.commehmetkoltigin)
+
 [Medium](https://medium.com/@mehmetkoltigin)
+
 [YouTube](https://www.youtube.com/channel/UCmLgaftx5e38BE0E7gpY2dA)
+
 [Discord](https://discordapp.com/users/837933958280904737)
+
 [Telegram](https://t.me/mehmetkoltigin)
