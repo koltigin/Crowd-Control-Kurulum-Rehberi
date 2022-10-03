@@ -343,20 +343,11 @@ sudo rm -r $HOME/Testnet1
 sudo rm /usr/local/bin/Cardchain
 ```
 
-### Hesaplar
+# Hesaplar
 
-[Linktree](https://linktr.ee.mehmetkoltigin)
-
-[Twitter](https://twitter.com.mehmetkoltigin)
-
-### Rues Komunite 
-
-[Forum Rues](https://forum.rues.infoindex.php)
-
-[Telegram Rues Announcement](https://t.meRuesAnnouncement)
-
-[Telegram Rues Chat](https://t.meRuesChat)
-
-[Telegram Rues Node](https://t.meRuesNode)
-
-[Telegram Rues Node Chat](https://t.meRuesNodeChat)
+[Anatolian Team](https://anatolianteam.com)
+[Twitter](https://twitter.commehmetkoltigin)
+[Medium](https://medium.com/@mehmetkoltigin)
+[YouTube](https://www.youtube.com/channel/UCmLgaftx5e38BE0E7gpY2dA)
+[Discord](https://discordapp.com/users/837933958280904737)
+[Telegram](https://t.me/mehmetkoltigin)
