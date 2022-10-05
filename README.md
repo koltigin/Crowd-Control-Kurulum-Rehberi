@@ -1,4 +1,4 @@
-# Crowd Control Cardchain Testnet1 Kurulum Rehberi 
+# Crowd Control Cardchain Testnet2 Kurulum Rehberi 
 
 ![image](https://user-images.githubusercontent.com/102043225/179354101-a597974d-793b-4201-8e38-364a4ba13a3f.png)
 
@@ -71,7 +71,7 @@ Cardchain config keyring-backend test
 Cardchain init $CROWD_NODENAME --chain-id $CROWD_CHAIN_ID
 ```
 
-## Testnet1 Klasörü ve Genesis Dosyasının İndirilmesi
+## Testnet1 Klasörü ve Genesis Dosyasının İndirilmesi---------------------------------------------
 ```shell
 git clone https://github.com/DecentralCardGame/Testnet1 
 cp $HOME/Testnet1/genesis.json $HOME/.Cardchain/config/genesis.json
@@ -89,7 +89,7 @@ sed -i 's|^indexer *=.*|indexer = "null"|' $HOME/.Cardchain/config/config.toml
 
 ## SEED ve PEERS Ayarlanması
 ```shell
-sed -i -e "/persistent_peers =/ s/= .*/= \"61f05a01167b1aec59275f74c3d7c3dc7e9388d4@45.136.28.158:26658\"/" $HOME/.Cardchain/config/config.toml
+sed -i -e "/persistent_peers =/ s/= .*/= \"752cfbb39a24007f7316725e7bbc34c845e7c5f1@45.136.28.158:26658\"/" $HOME/.Cardchain/config/config.toml
 ```
 
 ## Prometheus'u Aktif Etme
@@ -154,7 +154,7 @@ journalctl -u Cardchaind -f -o cat
 ## Cüzdan Oluşturma
 
 ### Yeni Cüzdan Oluşturma
-`$CROWD_WALLET` bölümünü değiştirmiyoruz kurulumun başında cüzdanımıza isim belirledik.
+`$CROWD_WALLET` bölümünü değiştirmiyoruz kurulumun başında cüzdanımıza değişkenler ile isim belirledik.
 ```shell 
 Cardchain keys add $CROWD_WALLET
 ```  
@@ -169,7 +169,7 @@ Cardchain keys add $CROWD_WALLET --recover
 ## Faucet
 Aşağıdaki kodda hata alırsanız [buradan](http://dragonapi.space:5000/) token isteyebilirsiniz.
 ```shell
-KEY=$(Cardchain keys show CUZDAN_ADRESINIZ --output=json | jq .address -r)
+KEY=$(Cardchain keys show validator --output=json | jq .address -r)
 curl -X POST https://cardchain.crowdcontrol.network/faucet/ -d "{\"address\": \"$KEY\"}"
 ```
 
@@ -186,33 +186,30 @@ Cardchain status 2>&1 | jq .SyncInfo
 
 ## Validator Oluşturma
  Aşağıdaki komutta aşağıda berlittiğim yerler dışında bir değişikli yapmanız gerekmez;
-   'identity'  buraya `httpskeybase.io` sitesine üye olarak size verilen kimlik numaranızı yazıyorsunuz.
-   'details'  kendiniz hakkında bilgiler verebilir ya da `Rues Community Supporter` yazabilirsiniz.
-   'website'  Varsa bir siteniz yazabilirsiniz ya da `httpsforum.rues.info` olarak bırakabilirsiniz.
-   'security-contact'  E-posta adresiniz.
-```shell 
-Cardchain tx staking create-validator 
- --commission-max-change-rate=0.01 
- --commission-max-rate=0.2 
- --commission-rate=0.05 
- --amount 9900000ubpf 
- --pubkey=$(Cardchain tendermint show-validator) 
- --moniker=$CROWD_NODENAME 
- --chain-id=$CROWD_CHAIN_ID 
- --details=Rues Community Supporter 
- --security-contact=E-POSTANIZ 
- --website=httpsforum.rues.info 
- --identity=XXXX1111XXXX1111 
- --min-self-delegation=1000000 
- --from=$CROWD_WALLET
- ```  
+   - `identity`  burada `XXXX1111XXXX1111` yazan yere `httpskeybase.io` sitesine üye olarak size verilen kimlik numaranızı yazıyorsunuz.
+   - `details` `Always forward with the Anatolian Team 🚀` yazan yere kendiniz hakkında bilgiler yazabilirsiniz.
+   - `website`  `https://anatolianteam.com` yazan yere varsa bir siteniz ya da twitter vb. adresinizi yazabilirsiniz.
+   - `security-contact`  E-posta adresiniz.
+ ```shell 
+Cardchain tx staking create-validator \
+--amount=1000000ubpf \
+--pubkey=$(Cardchain tendermint show-validator) \
+--moniker=$CROWD_NODENAME \
+--chain-id=$CROWD_CHAIN_ID \
+--commission-rate="0.1" \
+--commission-max-rate="0.5" \
+--commission-max-change-rate="0.1" \
+--min-self-delegation="1" \
+--from=$CROWD_WALLET \
+--details="Always forward with the Anatolian Team 🚀" \
+--security-contact="xxxxxxx@gmail.com" \
+--website="https://anatolianteam.com" \
+--identity="XXXX1111XXXX1111" \
+--yes
+ ``` 
 
 ## Validator Linkinizi Paylaşma
 Crowd Control Discord [#validator](https://discord.gg/bVKJaqmURN) kanalından validatorumuze ait [explorer](https://explorers.acloud.pp.ua/cardchain/staking) linkini gönderiyoruz.
-
-## DAHA FAZLA SORUNUZ VARSA CROWD CPNTROL TÜRKİYE TELEGRAM GRUBU
-
-[Stride Türkiye Telegram Sayfası](https://t.me/CrowdControlTurkish)
 
 ## FAYDALI KOMUTLAR
 
