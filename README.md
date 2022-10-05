@@ -71,10 +71,9 @@ Cardchain config keyring-backend test
 Cardchain init $CROWD_NODENAME --chain-id $CROWD_CHAIN_ID
 ```
 
-## Testnet1 Klasörü ve Genesis Dosyasının İndirilmesi---------------------------------------------
+## Genesis Dosyasının İndirilmesi
 ```shell
-git clone https://github.com/DecentralCardGame/Testnet1 
-cp $HOME/Testnet1/genesis.json $HOME/.Cardchain/config/genesis.json
+cp $HOME/Testnet/genesis.json $HOME/.Cardchain/config/genesis.json
 ```
 
 ## Minimum GAS Ücretinin Ayarlanması
