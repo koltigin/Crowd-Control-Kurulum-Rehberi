@@ -89,7 +89,7 @@ sed -i 's|^indexer *=.*|indexer = "null"|' $HOME/.Cardchain/config/config.toml
 
 ## SEED ve PEERS Ayarlanması
 ```shell
-sed -i -e "/persistent_peers =/ s/= .*/= \"752cfbb39a24007f7316725e7bbc34c845e7c5f1@45.136.28.158:26658\"/" $HOME/.Cardchain/config/config.toml
+sed -i -e "/persistent_peers =/ s/= .*/= \"c33a6ea0c7f82b4cc99f6f62a0e7ffdb3046a345@cardchain-testnet.nodejumper.io:30656,752cfbb39a24007f7316725e7bbc34c845e7c5f1@45.136.28.158:26658\"/" $HOME/.Cardchain/config/config.toml
 ```
 
 ## Prometheus'u Aktif Etme
@@ -169,7 +169,7 @@ Cardchain keys add $CROWD_WALLET --recover
 ## Faucet
 Aşağıdaki kodda hata alırsanız [buradan](http://dragonapi.space:5000/) token isteyebilirsiniz.
 ```shell
-KEY=$(Cardchain keys show validator --output=json | jq .address -r)
+KEY=$(Cardchain keys show $CROWD_WALLET --output=json | jq .address -r)
 curl -X POST https://cardchain.crowdcontrol.network/faucet/ -d "{\"address\": \"$KEY\"}"
 ```
 
