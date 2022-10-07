@@ -168,8 +168,8 @@ Cardchain keys add $CROWD_WALLET --recover
 Burada cüzdan ve valoper bilgilerimize değişkene ekliyoruz.
 
 ```shell
-CROWD_WALLET_ADDRESS=$(kujirad keys show $CROWD_WALLET -a)
-CROWD_VALOPER_ADDRESS=$(kujirad keys show $CROWD_WALLET --bech val -a)
+CROWD_WALLET_ADDRESS=$(Cardchain keys show $CROWD_WALLET -a)
+CROWD_VALOPER_ADDRESS=$(Cardchain keys show $CROWD_WALLET --bech val -a)
 ```
 
 ```shell
@@ -309,7 +309,7 @@ Cardchain tx gov vote 1 yes --from $CROWD_WALLET --chain-id=$CROWD_CHAIN_ID
 
 ### Validatore Stake Etme  Delegate Etme
 ```shell
-Cardchain tx staking delegate $CROWD_VALOPER_ADDRESS 100000000utoi --from=$CROWD_WALLET --chain-id=$CROWD_CHAIN_ID  --gas=auto
+Cardchain tx staking delegate $CROWD_VALOPER_ADDRESS 100000000ubpf --from=$CROWD_WALLET --chain-id=$CROWD_CHAIN_ID  --gas=auto
 ```
 
 ### Mevcut Validatorden Diğer Validatore Stake Etme  Redelegate Etme
