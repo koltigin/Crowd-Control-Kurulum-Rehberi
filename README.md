@@ -164,6 +164,20 @@ Cardchain keys add $CROWD_WALLET
 Cardchain keys add $CROWD_WALLET --recover
 ```
 
+## Cüzdan ve Valoper Bilgileri
+Burada cüzdan ve valoper bilgilerimize değişkene ekliyoruz.
+
+```shell
+CROWD_WALLET_ADDRESS=$(kujirad keys show $CROWD_WALLET -a)
+CROWD_VALOPER_ADDRESS=$(kujirad keys show $CROWD_WALLET --bech val -a)
+```
+
+```shell
+echo 'export CROWD_WALLET_ADDRESS='${CROWD_WALLET_ADDRESS} >> $HOME/.bash_profile
+echo 'export CROWD_VALOPER_ADDRESS='${CROWD_VALOPER_ADDRESS} >> $HOME/.bash_profile
+source $HOME/.bash_profile
+```
+
 * BU AŞAMADAN SONRA NODE'UMUZUN EŞLEŞMESİNİ BEKLİYORUZ.
 
 ## Faucet
@@ -175,7 +189,7 @@ curl -X POST https://cardchain.crowdcontrol.network/faucet/ -d "{\"address\": \"
 
 ## Cüzdan Bakiyesini Kontrol Etme
 ```shell
-Cardchain query bank balances CUZDAN_ADRESINIZ --chain-id $CROWD_CHAIN_ID
+Cardchain query bank balances $CROWD_WALLET_ADDRESS --chain-id $CROWD_CHAIN_ID
 ```  
 
 ## Senkronizasyonu Kontrol Etme
@@ -260,7 +274,7 @@ curl icanhazip.com
 
 ### Peer Adresinizi Öğrenme
 ```shell
-echo $(Cardchain tendermint show-node-id)@$(curl ifconfig.me)16656
+echo $(Cardchain tendermint show-node-id)@$(curl ifconfig.me)18656
 ```
 
 ### Cüzdanların Listesine Bakma
@@ -280,12 +294,12 @@ Cardchain keys delete CUZDAN_ADI
 
 ### Cüzdan Bakiyesine Bakma
 ```shell
-Cardchain query bank balances CUZDAN_ADRESI
+Cardchain query bank balances $CROWD_WALLET_ADDRESS
 ```
 
 ### Bir Cüzdandan Diğer Bir Cüzdana Transfer Yapma
 ```shell
-Cardchain tx bank send CUZDAN_ADRESI GONDERILECEK_CUZDAN_ADRESI 100000000ubpf
+Cardchain tx bank send $CROWD_WALLET_ADDRESS GONDERILECEK_CUZDAN_ADRESI 100000000ubpf
 ```
 
 ### Proposal Oylamasına Katılma
@@ -295,7 +309,7 @@ Cardchain tx gov vote 1 yes --from $CROWD_WALLET --chain-id=$CROWD_CHAIN_ID
 
 ### Validatore Stake Etme  Delegate Etme
 ```shell
-Cardchain tx staking delegate $VALOPER_ADDRESS 100000000utoi --from=$CROWD_WALLET --chain-id=$CROWD_CHAIN_ID  --gas=auto
+Cardchain tx staking delegate $CROWD_VALOPER_ADDRESS 100000000utoi --from=$CROWD_WALLET --chain-id=$CROWD_CHAIN_ID  --gas=auto
 ```
 
 ### Mevcut Validatorden Diğer Validatore Stake Etme  Redelegate Etme
@@ -310,7 +324,7 @@ Cardchain tx distribution withdraw-all-rewards --from=$CROWD_WALLET --chain-id=$
 
 ### Komisyon Ödüllerini Çekme
 ```shell
-Cardchain tx distribution withdraw-rewards VALIDATOR_ADRESI --from=$CROWD_WALLET --commission --chain-id=$CROWD_CHAIN_ID 
+Cardchain tx distribution withdraw-rewards $CROWD_VALOPER_ADDRESS --from=$CROWD_WALLET --commission --chain-id=$CROWD_CHAIN_ID 
 ```
 
 ### Validator İsmini Değiştirme
