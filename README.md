@@ -160,15 +160,15 @@ Cardchaind keys add $CROWD_WALLET
 
 ### Var Olan Cüzdanı İçeri Aktarma
 ```shell
-Cardchain keys add $CROWD_WALLET --recover
+Cardchaind keys add $CROWD_WALLET --recover
 ```
 
 ## Cüzdan ve Valoper Bilgileri
 Burada cüzdan ve valoper bilgilerimize değişkene ekliyoruz.
 
 ```shell
-CROWD_WALLET_ADDRESS=$(Cardchain keys show $CROWD_WALLET -a)
-CROWD_VALOPER_ADDRESS=$(Cardchain keys show $CROWD_WALLET --bech val -a)
+CROWD_WALLET_ADDRESS=$(Cardchaind keys show $CROWD_WALLET -a)
+CROWD_VALOPER_ADDRESS=$(Cardchaind keys show $CROWD_WALLET --bech val -a)
 ```
 
 ```shell
@@ -182,19 +182,19 @@ source $HOME/.bash_profile
 ## Faucet
 Aşağıdaki kodda hata alırsanız [buradan](http://dragonapi.space:5000/) token isteyebilirsiniz.
 ```shell
-KEY=$(Cardchain keys show $CROWD_WALLET --output=json | jq .address -r)
+KEY=$(Cardchaind keys show $CROWD_WALLET --output=json | jq .address -r)
 curl -X POST https://cardchain.crowdcontrol.network/faucet/ -d "{\"address\": \"$KEY\"}"
 ```
 
 ## Cüzdan Bakiyesini Kontrol Etme
 ```shell
-Cardchain query bank balances $CROWD_WALLET_ADDRESS --chain-id $CROWD_CHAIN_ID
+Cardchaind query bank balances $CROWD_WALLET_ADDRESS --chain-id $CROWD_CHAIN_ID
 ```  
 
 ## Senkronizasyonu Kontrol Etme
 `false` çıktısı almaldıkça bir sonraki yani validator oluşturma adımına geçmiyoruz.
 ```shell
-Cardchain status 2>&1 | jq .SyncInfo
+Cardchaind status 2>&1 | jq .SyncInfo
 ```
 
 ## Validator Oluşturma
@@ -204,9 +204,9 @@ Cardchain status 2>&1 | jq .SyncInfo
    - `website`  `https://anatolianteam.com` yazan yere varsa bir siteniz ya da twitter vb. adresinizi yazabilirsiniz.
    - `security-contact`  E-posta adresiniz.
  ```shell 
-Cardchain tx staking create-validator \
+Cardchaind tx staking create-validator \
 --amount=1000000ubpf \
---pubkey=$(Cardchain tendermint show-validator) \
+--pubkey=$(Cardchaind tendermint show-validator) \
 --moniker=$CROWD_NODENAME \
 --chain-id=$CROWD_CHAIN_ID \
 --commission-rate="0.1" \
@@ -248,22 +248,22 @@ systemctl restart Cardchaind
 
 ### Node Senkronizasyon Durumu
 ```shell
-Cardchain status 2>&1 | jq .SyncInfo
+Cardchaind status 2>&1 | jq .SyncInfo
 ```
 
 ### Validator Bilgileri
 ```shell
-Cardchain status 2>&1 | jq .ValidatorInfo
+Cardchaind status 2>&1 | jq .ValidatorInfo
 ```
 
 ### Node Bilgileri
 ```shell
-Cardchain status 2>&1 | jq .NodeInfo
+Cardchaind status 2>&1 | jq .NodeInfo
 ```
 
 ### Node ID Öğrenme
 ```shell
-Cardchain tendermint show-node-id
+Cardchaind tendermint show-node-id
 ```
 
 ### Node IP Adresini Öğrenme
@@ -273,62 +273,62 @@ curl icanhazip.com
 
 ### Peer Adresinizi Öğrenme
 ```shell
-echo $(Cardchain tendermint show-node-id)@$(curl ifconfig.me)18656
+echo $(Cardchaind tendermint show-node-id)@$(curl ifconfig.me)18656
 ```
 
 ### Cüzdanların Listesine Bakma
 ```shell
-Cardchain keys list
+Cardchaind keys list
 ```
 
 ### Cüzdanı İçeri Aktarma
 ```shell
-Cardchain keys add $CROWD_WALLET --recover
+Cardchaind keys add $CROWD_WALLET --recover
 ```
 
 ### Cüzdanı Silme
 ```shell
-Cardchain keys delete CUZDAN_ADI
+Cardchaind keys delete CUZDAN_ADI
 ```
 
 ### Cüzdan Bakiyesine Bakma
 ```shell
-Cardchain query bank balances $CROWD_WALLET_ADDRESS
+Cardchaind query bank balances $CROWD_WALLET_ADDRESS
 ```
 
 ### Bir Cüzdandan Diğer Bir Cüzdana Transfer Yapma
 ```shell
-Cardchain tx bank send $CROWD_WALLET_ADDRESS GONDERILECEK_CUZDAN_ADRESI 100000000ubpf
+Cardchaind tx bank send $CROWD_WALLET_ADDRESS GONDERILECEK_CUZDAN_ADRESI 100000000ubpf
 ```
 
 ### Proposal Oylamasına Katılma
 ```shell
-Cardchain tx gov vote 1 yes --from $CROWD_WALLET --chain-id=$CROWD_CHAIN_ID 
+Cardchaind tx gov vote 1 yes --from $CROWD_WALLET --chain-id=$CROWD_CHAIN_ID 
 ```
 
 ### Validatore Stake Etme  Delegate Etme
 ```shell
-Cardchain tx staking delegate $CROWD_VALOPER_ADDRESS 100000000ubpf --from=$CROWD_WALLET --chain-id=$CROWD_CHAIN_ID  --gas=auto
+Cardchaind tx staking delegate $CROWD_VALOPER_ADDRESS 100000000ubpf --from=$CROWD_WALLET --chain-id=$CROWD_CHAIN_ID  --gas=auto
 ```
 
 ### Mevcut Validatorden Diğer Validatore Stake Etme  Redelegate Etme
 ```shell
-Cardchain tx staking redelegate MevcutValidatorAdresi StakeEdilecekYeniValidatorAdresi 100000000ubpf --from=$CROWD_WALLET --chain-id=$CROWD_CHAIN_ID --gas=auto
+Cardchaind tx staking redelegate MevcutValidatorAdresi StakeEdilecekYeniValidatorAdresi 100000000ubpf --from=$CROWD_WALLET --chain-id=$CROWD_CHAIN_ID --gas=auto
 ```
 
 ### Ödülleri Çekme
 ```shell
-Cardchain tx distribution withdraw-all-rewards --from=$CROWD_WALLET --chain-id=$CROWD_CHAIN_ID --gas=auto
+Cardchaind tx distribution withdraw-all-rewards --from=$CROWD_WALLET --chain-id=$CROWD_CHAIN_ID --gas=auto
 ```
 
 ### Komisyon Ödüllerini Çekme
 ```shell
-Cardchain tx distribution withdraw-rewards $CROWD_VALOPER_ADDRESS --from=$CROWD_WALLET --commission --chain-id=$CROWD_CHAIN_ID 
+Cardchaind tx distribution withdraw-rewards $CROWD_VALOPER_ADDRESS --from=$CROWD_WALLET --commission --chain-id=$CROWD_CHAIN_ID 
 ```
 
 ### Validator İsmini Değiştirme
 ```shell
-Cardchain tx staking edit-validator 
+Cardchaind tx staking edit-validator 
 --moniker=YENI_NODE_ADI 
 --chain-id=$CROWD_CHAIN_ID  
 --from=$CROWD_WALLET
@@ -336,7 +336,7 @@ Cardchain tx staking edit-validator
 
 ### Validatoru Jail Durumundan Kurtarma 
 ```shell
-Cardchain tx slashing unjail \
+Cardchaind tx slashing unjail \
   --broadcast-mode=block \
   --from=$CROWD_WALLET \
   --chain-id=$CROWD_CHAIN_ID \
@@ -349,8 +349,8 @@ Cardchain tx slashing unjail \
 sudo systemctl stop Cardchaind
 sudo rm /etc/systemd/system/Cardchaind.service -rf
 sudo rm $HOME/.Cardchain/ -rf
-sudo rm $HOME/Testnet1 -rf
-sudo rm /usr/local/bin/Cardchain -rf
+sudo rm $HOME/Testnet -rf
+sudo rm /usr/local/bin/Cardchaind -rf
 ```
 
 # Hesaplar
