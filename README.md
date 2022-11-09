@@ -1,4 +1,4 @@
-# Crowd Control Cardchain Testnet2 Kurulum Rehberi 
+# Crowd Control Cardchain Testnet3 Kurulum Rehberi 
 
 ![image](https://user-images.githubusercontent.com/102043225/179354101-a597974d-793b-4201-8e38-364a4ba13a3f.png)
 
@@ -19,7 +19,7 @@ sudo apt install curl make build-essential gcc tmux jq chrony htop -y < "/dev/nu
 
 ## Go Kurulumu
 ```shell
-ver="1.18.4"
+ver="1.19"
 wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
 rm -rf /usr/local/go
 tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
@@ -41,7 +41,7 @@ aşağıda değiştirmeniz gereken yerleri yazıyorum.
 echo "export CROWD_NODENAME=$CROWD_NODENAME"  >> $HOME/.bash_profile
 echo "export CROWD_WALLET=$CROWD_WALLET" >> $HOME/.bash_profile
 echo "export CROWD_PORT=18" >> $HOME/.bash_profile
-echo "export CROWD_CHAIN_ID=Cardchain" >> $HOME/.bash_profile
+echo "export CROWD_CHAIN_ID=Testnet3" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
 
@@ -51,29 +51,33 @@ Node ve Cüzdan adımızın Mehmet olduğunu varsayalım. Kod aşağıdaki şeki
 echo "export CROWD_NODENAME=Mehmet"  >> $HOME/.bash_profile
 echo "export CROWD_WALLET=Mehmet" >> $HOME/.bash_profile
 echo "export CROWD_PORT=18" >> $HOME/.bash_profile
-echo "export CROWD_CHAIN_ID=Cardchain" >> $HOME/.bash_profile
+echo "export CROWD_CHAIN_ID=Testnet3" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
 
 ## Cardchain Kurulumu
 ```shell
-curl https://get.ignite.com/DecentralCardGame/Cardchain@latest! | sudo bash
+wget https://github.com/DecentralCardGame/Cardchain/releases/download/v0.81/Cardchain_latest_linux_amd64.tar.gz
+tar xzf Cardchain_latest_linux_amd64.tar.gz
+chmod 775 Cardchaind
+sudo mv Cardchaind /usr/local/bin/
+sudo rm Cardchain_latest_linux_amd64.tar.gz
 ```
 
 ## Uygulamayı Yapılandırma
 ```shell
-Cardchain config chain-id $CROWD_CHAIN_ID
-Cardchain config keyring-backend test
+Cardchaind config chain-id $CROWD_CHAIN_ID
+Cardchaind init $CROWD_NODENAME --chain-id $CROWD_CHAIN_ID
 ```
+
 
 ## Uygulamayı Başlatma
 ```shell
-Cardchain init $CROWD_NODENAME --chain-id $CROWD_CHAIN_ID
+Cardchaind init $CROWD_NODENAME --chain-id $CROWD_CHAIN_ID
 ```
 
-## Testnet Klasörünün İndirilmesi ve Genesis Dosyasının Kopyalanması
+## Genesis Dosyasının Kopyalanması
 ```shell
-git clone https://github.com/DecentralCardGame/Testnet
 cp $HOME/Testnet/genesis.json $HOME/.Cardchain/config/genesis.json
 ```
 
@@ -89,7 +93,7 @@ sed -i 's|^indexer *=.*|indexer = "null"|' $HOME/.Cardchain/config/config.toml
 
 ## SEED ve PEERS Ayarlanması
 ```shell
-sed -i -e "/persistent_peers =/ s/= .*/= \"c33a6ea0c7f82b4cc99f6f62a0e7ffdb3046a345@cardchain-testnet.nodejumper.io:30656,752cfbb39a24007f7316725e7bbc34c845e7c5f1@45.136.28.158:26658\"/" $HOME/.Cardchain/config/config.toml
+sed -i -e "/persistent_peers =/ s/= .*/= \"56d11635447fa77163f31119945e731c55e256a4@45.136.28.158:26658,72b662370d2296a22cad1eecbe447012dd3c2a89@65.21.151.93:36656,b17b995cf2fcff579a4b4491ca8e05589c2d8627@195.54.41.130:36656,d692726a2bdeb0e371b42ef4fa6dfaa47a1c5ad4@38.242.250.15:26656,f1d8bede57e24cb6e5258da1e4f17b1c5b0a0ca3@173.249.45.161:26656,959f9a742058ff591a5359130a392bcccf5f11a5@5.189.165.127:18656,56ff9898493787bf566c68ede80febb76a45eedc@23.88.77.188:20004,96821b39e381e293a251c860c58a2d9e85435363@49.12.245.142:13656,638240b94ac3da7d8c8df8ae4da72a7d920acf2a@173.212.245.44:26656,b41f7ce40c863ee7e20801e6cd3a97237a79114a@65.21.53.39:16656,5d2bb1fed3f93aed0ba5c96bff4b0afb31d9501d@130.185.119.10:26656\"/" $HOME/.Cardchain/config/config.toml
 ```
 
 ## Prometheus'u Aktif Etme
@@ -117,7 +121,7 @@ sed -i.bak -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:${C
 
 ## Zincir Verilerini Sıfırlama
 ```shell
-Cardchain tendermint unsafe-reset-all --home $HOME/.Cardchain 
+Cardchaind unsafe-reset-all
 ```
 
 ## Servis Dosyası Oluşturma
@@ -129,7 +133,7 @@ After=network-online.target
 
 [Service]
 User=$USER
-ExecStart=$(which Cardchain) start
+ExecStart=$(which Cardchaind) start
 Restart=always
 RestartSec=10
 LimitNOFILE=65535
@@ -156,7 +160,7 @@ journalctl -u Cardchaind -f -o cat
 ### Yeni Cüzdan Oluşturma
 `$CROWD_WALLET` bölümünü değiştirmiyoruz kurulumun başında cüzdanımıza değişkenler ile isim belirledik.
 ```shell 
-Cardchain keys add $CROWD_WALLET
+Cardchaind keys add $CROWD_WALLET
 ```  
 
 ### Var Olan Cüzdanı İçeri Aktarma
