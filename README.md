@@ -195,11 +195,7 @@ source $HOME/.bash_profile
 * BU AŞAMADAN SONRA NODE'UMUZUN EŞLEŞMESİNİ BEKLİYORUZ.
 
 ## Faucet
-Aşağıdaki kodda hata alırsanız [buradan](http://dragonapi.space:5000/) token isteyebilirsiniz.
-```shell
-KEY=$(Cardchaind keys show $CROWD_WALLET --output=json | jq .address -r)
-curl -X POST https://cardchain.crowdcontrol.network/faucet/ -d "{\"address\": \"$KEY\"}"
-```
+Aşağıdaki kodda hata alırsanız [buradan](https://crowdcontrol.exploreme.pro/utilities) cüzdanımızı bağlayıp token isteyebilirsiniz.
 
 ## Cüzdan Bakiyesini Kontrol Etme
 ```shell
