@@ -139,15 +139,29 @@ WantedBy=multi-user.target
 EOF
 ```
 
-## Servisi Başlatma
+## StateSync ([Stavr](https://github.com/obajay/StateSync-snapshots/tree/main/Projects/Crowd_Control))
+```shell
+SNAP_RPC="http://crowd.rpc.t.stavr.tech:21207"
+PEERS="0aa2875c176ffda48fe9cd4569d527e629fd868d@crowd.peer.stavr.tech:21206"
+sed -i.bak -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.Cardchain/config/config.toml
+LATEST_HEIGHT=$(curl -s $SNAP_RPC/block | jq -r .result.block.header.height) \
+&& BLOCK_HEIGHT=$((LATEST_HEIGHT - 100)) \
+&& TRUST_HASH=$(curl -s "$SNAP_RPC/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash); \
+echo $LATEST_HEIGHT $BLOCK_HEIGHT $TRUST_HASH
+
+sed -i.bak -E "s|^(enable[[:space:]]+=[[:space:]]+).*$|\1true| ; \
+s|^(rpc_servers[[:space:]]+=[[:space:]]+).*$|\1\"$SNAP_RPC,$SNAP_RPC\"| ; \
+s|^(trust_height[[:space:]]+=[[:space:]]+).*$|\1$BLOCK_HEIGHT| ; \
+s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"|" $HOME/.Cardchain/config/config.toml; \
+Cardchaind unsafe-reset-all --home $HOME/.Cardchain
+wget -O $HOME/.Cardchain/config/addrbook.json "https://raw.githubusercontent.com/obajay/nodes-Guides/main/Projects/Crowd_Control/addrbook.json"
+```
+
+## Servisi Başlatma ve Logları Kontrol Etme
 ```shell
 systemctl daemon-reload
 systemctl enable Cardchaind
-systemctl restart Cardchaind
-```
-
-## Logları Kontrol Etme
-```shell
+systemctl start Cardchaind
 journalctl -u Cardchaind -f -o cat
 ```  
 
