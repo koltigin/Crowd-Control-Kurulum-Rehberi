@@ -357,11 +357,14 @@ Cardchaind tx slashing unjail \
 
 ### Node'u Tamamen Silme 
 ```shell
-sudo systemctl stop Cardchaind
-sudo rm /etc/systemd/system/Cardchaind.service -rf
-sudo rm $HOME/.Cardchain/ -rf
-sudo rm $HOME/Testnet -rf
-sudo rm /usr/local/bin/Cardchaind -rf
+systemctl stop Cardchaind && \
+systemctl disable Cardchaind && \
+rm /etc/systemd/system/Cardchaind.service && \
+systemctl daemon-reload && \
+cd $HOME && \
+rm -rf .Cardchain Cardchain && \
+rm -rf $(which Cardchaind)
+sed -i '/CROWD_/d' ~/.bash_profile
 ```
 
 # Hesaplar
