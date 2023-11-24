@@ -19,7 +19,7 @@ sudo apt install curl make build-essential gcc tmux jq chrony htop -y < "/dev/nu
 
 ## Go Kurulumu
 ```shell
-ver="1.19"
+ver="1.21.4"
 wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
 rm -rf /usr/local/go
 tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
