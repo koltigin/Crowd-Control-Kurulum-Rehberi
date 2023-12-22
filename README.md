@@ -149,7 +149,7 @@ systemctl daemon-reload
 systemctl enable Cardchaind
 ```
 
-## StateSync ([Stavr](https://github.com/obajay/StateSync-snapshots/tree/main/Projects/Crowd_Control))
+## StateSync ile Sistemi Başlatma ([Stavr](https://github.com/obajay/StateSync-snapshots/tree/main/Projects/Crowd_Control))
 ```shell
 SNAP_RPC=http://crowd.rpc.t.stavr.tech:21207
 PEERS="ec585d7fb38b67619dcb79aad90722f0eaf0faa3@crowd.peer.stavr.tech:21206"
@@ -163,13 +163,10 @@ s|^(rpc_servers[[:space:]]+=[[:space:]]+).*$|\1\"$SNAP_RPC,$SNAP_RPC\"| ; \
 s|^(trust_height[[:space:]]+=[[:space:]]+).*$|\1$BLOCK_HEIGHT| ; \
 s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"|" $HOME/.Cardchain/config/config.toml; \
 Cardchaind tendermint unsafe-reset-all
+wget -O $HOME/.Cardchain/config/addrbook.json "https://raw.githubusercontent.com/koltigin/Crowd-Control-Kurulum-Rehberi/main/addrbook.json"
+systemctl restart Cardchaind && journalctl -u Cardchaind -f -o cat
 ```
 
-## Servisi Başlatma ve Logları Kontrol Etme
-```shell
-systemctl start Cardchaind
-journalctl -u Cardchaind -f -o cat
-```  
 
 ## Cüzdan Oluşturma
 
