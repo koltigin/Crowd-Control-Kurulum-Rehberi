@@ -71,8 +71,8 @@ Cardchaind init $CROWD_NODENAME --chain-id $CROWD_CHAIN_ID
 
 ## Genesis ve addrbook Dosyasının Kopyalanması
 ```shell
-wget http://45.136.28.158:3000/genesis.json -O $HOME/.Cardchain/config/genesis.json
-wget -O $HOME/.Cardchain/config/addrbook.json "https://raw.githubusercontent.com/koltigin/Crowd-Control-Kurulum-Rehberi/main/addrbook.json"
+wget -O $HOME/.Cardchain/config/genesis.json http://45.136.28.158:3000/genesis.json 
+wget -O $HOME/.Cardchain/config/addrbook.json https://raw.githubusercontent.com/koltigin/Crowd-Control-Kurulum-Rehberi/main/addrbook.json
 ```
 
 ## Minimum GAS Ücretinin Ayarlanması
