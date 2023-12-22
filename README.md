@@ -146,7 +146,7 @@ EOF
 ## Servisi Aktive Etme
 ```shell
 systemctl daemon-reload
-systemctl enable c4ed
+systemctl enable Cardchaind
 ```
 
 ## StateSync ([Stavr](https://github.com/obajay/StateSync-snapshots/tree/main/Projects/Crowd_Control))
