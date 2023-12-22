@@ -41,7 +41,7 @@ aşağıda değiştirmeniz gereken yerleri yazıyorum.
 echo "export CROWD_NODENAME=$CROWD_NODENAME"  >> $HOME/.bash_profile
 echo "export CROWD_WALLET=$CROWD_WALLET" >> $HOME/.bash_profile
 echo "export CROWD_PORT=18" >> $HOME/.bash_profile
-echo "export CROWD_CHAIN_ID=Testnet3" >> $HOME/.bash_profile
+echo "export CROWD_CHAIN_ID=cardtestnet-6" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
 
@@ -51,7 +51,7 @@ Node ve Cüzdan adımızın Mehmet olduğunu varsayalım. Kod aşağıdaki şeki
 echo "export CROWD_NODENAME=Mehmet"  >> $HOME/.bash_profile
 echo "export CROWD_WALLET=Mehmet" >> $HOME/.bash_profile
 echo "export CROWD_PORT=18" >> $HOME/.bash_profile
-echo "export CROWD_CHAIN_ID=Testnet3" >> $HOME/.bash_profile
+echo "export CROWD_CHAIN_ID=cardtestnet-6" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
 
@@ -69,10 +69,10 @@ Cardchaind config chain-id $CROWD_CHAIN_ID
 Cardchaind init $CROWD_NODENAME --chain-id $CROWD_CHAIN_ID
 ```
 
-## Genesis Dosyasının Kopyalanması
+## Genesis ve addrbook Dosyasının Kopyalanması
 ```shell
-git clone https://github.com/DecentralCardGame/Testnet
-cp $HOME/Testnet/genesis.json $HOME/.Cardchain/config/genesis.json
+wget http://45.136.28.158:3000/genesis.json -O $HOME/.Cardchain/config/genesis.json
+wget -O $HOME/.Cardchain/config/addrbook.json "https://raw.githubusercontent.com/koltigin/Crowd-Control-Kurulum-Rehberi/main/addrbook.json"
 ```
 
 ## Minimum GAS Ücretinin Ayarlanması
@@ -114,6 +114,13 @@ sed -i.bak -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:${C
 sed -i.bak -e "s%^node = \"tcp://localhost:26657\"%node = \"tcp://localhost:${CROWD_PORT}657\"%" $HOME/.Cardchain/config/client.toml
 ```
 
+External Adres Ekleme
+```shell
+PUB_IP=`curl -s -4 icanhazip.com`
+sed -e "s|external_address = \".*\"|external_address = \"$PUB_IP:${CROWD_PORT}656\"|g" ~/.c4e-chain/config/config.toml > ~/.c4e-chain/config/config.toml.tmp
+mv ~/.c4e-chain/config/config.toml.tmp  ~/.c4e-chain/config/config.toml
+```
+
 ## Zincir Verilerini Sıfırlama
 ```shell
 Cardchaind unsafe-reset-all
@@ -140,20 +147,20 @@ EOF
 
 ## StateSync ([Stavr](https://github.com/obajay/StateSync-snapshots/tree/main/Projects/Crowd_Control))
 ```shell
-SNAP_RPC="http://crowd.rpc.t.stavr.tech:21207"
-PEERS="0aa2875c176ffda48fe9cd4569d527e629fd868d@crowd.peer.stavr.tech:21206"
+SNAP_RPC=http://crowd.rpc.t.stavr.tech:21207
+PEERS="ec585d7fb38b67619dcb79aad90722f0eaf0faa3@crowd.peer.stavr.tech:21206"
 sed -i.bak -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.Cardchain/config/config.toml
 LATEST_HEIGHT=$(curl -s $SNAP_RPC/block | jq -r .result.block.header.height) \
 && BLOCK_HEIGHT=$((LATEST_HEIGHT - 100)) \
 && TRUST_HASH=$(curl -s "$SNAP_RPC/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash); \
 echo $LATEST_HEIGHT $BLOCK_HEIGHT $TRUST_HASH
-
 sed -i.bak -E "s|^(enable[[:space:]]+=[[:space:]]+).*$|\1true| ; \
 s|^(rpc_servers[[:space:]]+=[[:space:]]+).*$|\1\"$SNAP_RPC,$SNAP_RPC\"| ; \
 s|^(trust_height[[:space:]]+=[[:space:]]+).*$|\1$BLOCK_HEIGHT| ; \
 s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"|" $HOME/.Cardchain/config/config.toml; \
-Cardchaind unsafe-reset-all --home $HOME/.Cardchain
+Cardchaind tendermint unsafe-reset-all
 wget -O $HOME/.Cardchain/config/addrbook.json "https://raw.githubusercontent.com/obajay/nodes-Guides/main/Projects/Crowd_Control/addrbook.json"
+sudo systemctl restart Cardchaind && journalctl -u Cardchaind -f -o cat
 ```
 
 ## Servisi Başlatma ve Logları Kontrol Etme
