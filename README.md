@@ -57,11 +57,10 @@ source $HOME/.bash_profile
 
 ## Cardchain Kurulumu
 ```shell
-wget https://github.com/DecentralCardGame/Cardchain/releases/download/v0.81/Cardchain_latest_linux_amd64.tar.gz
-tar xzf Cardchain_latest_linux_amd64.tar.gz
-chmod 775 Cardchaind
-sudo mv Cardchaind /usr/local/bin/
-sudo rm Cardchain_latest_linux_amd64.tar.gz
+git clone https://github.com/DecentralCardGame/Cardchain
+wget https://github.com/DecentralCardGame/Cardchain/releases/download/v0.11.0/Cardchaind
+chmod +x Cardchaind
+mv $HOME/Cardchaind /usr/local/bin
 ```
 
 ## Uygulamayı Yapılandırma ve Başlatma
@@ -70,7 +69,7 @@ Cardchaind config chain-id $CROWD_CHAIN_ID
 Cardchaind init $CROWD_NODENAME --chain-id $CROWD_CHAIN_ID
 ```
 
-## Testnet Klasörünün İndirilmesi ve Genesis Dosyasının Kopyalanması
+## Genesis Dosyasının Kopyalanması
 ```shell
 git clone https://github.com/DecentralCardGame/Testnet
 cp $HOME/Testnet/genesis.json $HOME/.Cardchain/config/genesis.json
