@@ -124,12 +124,6 @@ sed -e "s|external_address = \".*\"|external_address = \"$PUB_IP:${CROWD_PORT}65
 mv ~/.c4e-chain/config/config.toml.tmp  ~/.c4e-chain/config/config.toml
 ```
 
-## Servisi Aktive Etme
-```shell
-systemctl daemon-reload
-systemctl enable c4ed
-```
-
 ## Servis Dosyası Oluşturma
 ```shell
 tee <<EOF >/dev/null /etc/systemd/system/Cardchaind.service
@@ -147,6 +141,12 @@ LimitNOFILE=65535
 [Install]
 WantedBy=multi-user.target
 EOF
+```
+
+## Servisi Aktive Etme
+```shell
+systemctl daemon-reload
+systemctl enable c4ed
 ```
 
 ## StateSync ([Stavr](https://github.com/obajay/StateSync-snapshots/tree/main/Projects/Crowd_Control))
