@@ -87,9 +87,10 @@ sed -i 's|^indexer *=.*|indexer = "null"|' $HOME/.Cardchain/config/config.toml
 
 ## SEED ve PEERS Ayarlanması
 ```shell
-SEEDS="947aa14a9e6722df948d46b9e3ff24dd72920257@cardchain-testnet-seed.itrocket.net:31656"
-PEERS="99dcfbba34316285fceea8feb0b644c4dc67c53b@cardchain-testnet-peer.itrocket.net:31656,d0e4edcdd73a7578b10980b3739a5b7218b7e86f@212.23.222.109:26256,1f0a4eac263a6c77ec7020dcdde1547af473df4f@185.249.227.91:26656,5caecb793facd1605f3973397367bf61e9bebdc9@135.181.220.61:11656,78a2c6a4f6aeab1f24681ee0864f4546b615b48e@194.163.179.176:12356,542d3d320d50d7e4d4fe8abb8950f346f10fb106@142.132.202.86:16001,8d4bbea97ba2deccc21cc205284411b086de85b3@167.86.68.204:39656,443c0471d3bb10717c8e0df5b0171c87c1d6ed9d@142.132.152.46:22656,7dcbe1c7c24e849c0b89271ded17fb71dc61a7fe@95.216.35.51:21156,2fd09544afaaf5ea07ccea00f2e437d1cc283f51@185.202.236.103:26656,2433afb5d241e24a68f81b66be5f4db3c83dfec3@88.198.47.154:46656"
-sed -i -e "s/^seeds *=.*/seeds = \"$SEEDS\"/; s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" $HOME/.Cardchain/config/config.toml
+peers="5ed5398d201c0d40400055beceb4a9a93506d26a@202.61.225.157:26656"
+sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$peers\"/" $HOME/.Cardchain/config/config.toml
+seeds=""
+sed -i.bak -e "s/^seeds =.*/seeds = \"$seeds\"/" $HOME/.Cardchain/config/config.toml
 
 ```
 
