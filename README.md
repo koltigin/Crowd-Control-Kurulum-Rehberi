@@ -124,9 +124,10 @@ sed -e "s|external_address = \".*\"|external_address = \"$PUB_IP:${CROWD_PORT}65
 mv ~/.c4e-chain/config/config.toml.tmp  ~/.c4e-chain/config/config.toml
 ```
 
-## Zincir Verilerini Sıfırlama
+## Servisi Aktive Etme
 ```shell
-Cardchaind unsafe-reset-all
+systemctl daemon-reload
+systemctl enable c4ed
 ```
 
 ## Servis Dosyası Oluşturma
@@ -163,13 +164,10 @@ s|^(trust_height[[:space:]]+=[[:space:]]+).*$|\1$BLOCK_HEIGHT| ; \
 s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"|" $HOME/.Cardchain/config/config.toml; \
 Cardchaind tendermint unsafe-reset-all
 wget -O $HOME/.Cardchain/config/addrbook.json "https://raw.githubusercontent.com/obajay/nodes-Guides/main/Projects/Crowd_Control/addrbook.json"
-sudo systemctl restart Cardchaind && journalctl -u Cardchaind -f -o cat
 ```
 
 ## Servisi Başlatma ve Logları Kontrol Etme
 ```shell
-systemctl daemon-reload
-systemctl enable Cardchaind
 systemctl start Cardchaind
 journalctl -u Cardchaind -f -o cat
 ```  
